@@ -40,3 +40,4 @@ for (let button of recipeButtons) {
 // for (let recipe of recipeTitles) {
 //   recipe.addEventListener("click", (event) => recipeFetch(event));
 // }
+

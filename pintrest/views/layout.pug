@@ -4,4 +4,17 @@ html
     title r/Food
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+
+    //Heading and can press to return to landing page
+    a(href=`http://localhost:3000/`)
+      <h1>Search r/Food</h1>
+    
+    //Search box, can also leave blank to return to landing page
+    <form id="tfnewsearch" method="get" action="http://localhost:3000/">
+      <input type="text" class="tftextinput" id="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
+    </form>
+
+    script(src='/javascripts/search.js')
+
     block content
+    
