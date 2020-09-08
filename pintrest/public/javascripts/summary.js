@@ -27,6 +27,30 @@ function titleCleanup(title){
   return title
 }
 
+function gotoPrevPage(){
+  const before = event.target.value
+  console.log(before)
+
+  fetch(`/?${event.target.value}&dir=previous`,{ method: 'POST', redirect: 'follow'})
+    //Redirect to list of recipes
+    .then((data) => {
+      redirect: window.location.replace(data.url) 
+    })
+    .catch((error) => console.log(error));
+}
+
+function gotoNextPage(){
+  const after = event.target.value
+  console.log(after)
+
+  fetch(`/?${event.target.value}&dir=forward`,{ method: 'POST', redirect: 'follow'})
+    //Redirect to list of recipes
+    .then((data) => {
+      redirect: window.location.replace(data.url) 
+    })
+    .catch((error) => console.log(error));
+}
+
 // Add an event listener to each get recipe button
 const recipeButtons = document.getElementsByClassName("getRecipe");
 
@@ -34,10 +58,14 @@ for (let button of recipeButtons) {
   button.addEventListener("click", (event) => titleFetch(event));
 }
 
-// // Add an event listener to each recipe title
-// const recipeTitles = document.getElementsByClassName("recipeTitle");
+//Previous page
+var prevPage = document.getElementById('prevPage');
+prevPage.addEventListener("click", (event) => gotoPrevPage(event));
 
-// for (let recipe of recipeTitles) {
-//   recipe.addEventListener("click", (event) => recipeFetch(event));
-// }
+//Next page
+var nextPage = document.getElementById('nextPage');
+nextPage.addEventListener("click", (event) => gotoNextPage(event));
+
+
+
 
