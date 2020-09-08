@@ -1,0 +1,31 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.item {
+  margin: 20px 0;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #069;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+table {
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 500px;
+}
+
+table, th, td {
+  border: 1px solid black;
+}

@@ -1,0 +1,26 @@
+extends recipe_overall
+
+
+block content
+  script(src='/javascripts/summary.js')
+  
+  <table>
+
+  h1 Returned Recipes
+  //- #{JSON.stringify(articles)}
+  each recipe in recipes
+    .item
+      <tr>
+        //- Title, click on title to get recipe and ingredients ect.
+        <th>
+          button(class="recipeTitle") #{recipe.recipe.label}
+        </th>
+        //- Image, click on photo to go to larger view of image
+        <th>
+          img(src=recipe.recipe.image,width="200" height="200",class="recipePicture",alt=recipe.recipe.label)
+      </tr>
+  </table>
+
+
+
+  button(onclick='nextPage()') Next Page

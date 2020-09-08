@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 Trending Wikipedia Articles
+  //- #{JSON.stringify(articles)}
+  each article in articles
+    .item
+      button.articleTitle #{article.article.replace(/_/g," ")}
+  
+  script(src='/javascripts/summary.js')

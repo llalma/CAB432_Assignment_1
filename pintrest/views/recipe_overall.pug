@@ -1,0 +1,71 @@
+extends layout
+
+
+block content
+  
+    <table>
+        <tr>
+            <th>
+                    <table>
+                    - var index = 0;
+                    each recipe in recipes
+                        .item
+                        <tr>
+                            //- Title, click on title to get recipe and ingredients ect.
+                            <th>
+                                button(class="recipeTitle",value=index, onClick="window.location.reload();") #{recipe.recipe.label}
+                            </th>
+                            //- Image, click on photo to go to larger view of image
+                            <th>
+                                img(src=recipe.recipe.image,width="200" height="200",class="recipePicture",alt=recipe.recipe.label)
+                            </th>
+                        </tr>
+                        - index += 1
+                    </table>
+            </th>
+
+            <th>
+                - var selected_recipe = recipes[selected_index];
+                <table>
+                    <tr>
+                        <th><h2>Ingredients</h2></th>
+                        <th>
+                            each item in selected_recipe.recipe.ingredients
+                                .item
+                                p #{item.text}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th><h2>Calories</h2></th>
+                        <th>
+                            p #{selected_recipe.recipe.calories} kcal
+                        </th>
+                    </tr>
+                    <tr>
+                        <th><h2>Steps</h2></th>
+                        <th><a href=#{selected_recipe.recipe.url}>#{selected_recipe.recipe.url}</a></th>
+                    </tr>
+                    <tr>
+                        <th><h2>Nutrients</h2></th>
+                        <th>
+                            <table>
+                            each item in selected_recipe.recipe.totalNutrients
+                                .item
+                                <tr>
+                                <th>
+                                   p <h3>#{item.label}</h3>
+                                </th>
+                                <th>
+                                    p #{item.quantity}#{item.unit}
+                                </th>
+                                </tr>
+                            </table>
+                        </th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </table>
+    
+    script(src='/javascripts/summary.js')
+    

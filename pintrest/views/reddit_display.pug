@@ -1,0 +1,37 @@
+extends layout
+
+
+block content
+
+  h1 Returned Images
+  //- #{JSON.stringify(articles)}
+  <table>
+  each post in posts
+    .item
+    
+    <tr>
+      //- Title, click on tilte to go to reddit post
+      <th>
+        a(href=`https://www.reddit.com/r/food/comments/${post.data.id}`)
+          button(class="redditTitle") #{post.data.title}
+      </th>
+      //- Image, click on photo to go to larger view of image
+      <th>
+        a(href=post.data.url)
+          img(src=post.data.url,width="200" height="200",class="redditPicture",alt=post.data.title)
+      </th>
+      //- Get recipe
+      <th>
+        button(class="getRecipe",value=post.data.title) Get Recipe
+      </th>
+      //- Get Nutrients
+      <th>
+  
+      </th>
+    </tr>
+  </table>
+
+
+    
+  script(src='/javascripts/summary.js')
+
