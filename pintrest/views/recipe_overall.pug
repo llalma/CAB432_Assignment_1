@@ -7,13 +7,12 @@ block content
         <tr>
             <th>
                     <table>
-                    - var index = 0;
                     each recipe in recipes
                         .item
                         <tr>
                             //- Title, click on title to get recipe and ingredients ect.
                             <th>
-                                button(class="recipeTitle",value=index, onClick="window.location.reload();") #{recipe.recipe.label}
+                                button(class="recipeTitle",value=`${query},${recipe.recipe.uri}`) #{recipe.recipe.label}
                             </th>
                             //- Image, click on photo to go to larger view of image
                             <th>
@@ -25,56 +24,10 @@ block content
             </th>
 
             <th>
-                - var selected_recipe = recipes[selected_index];
-                <table>
-                    <tr>
-                        <th><h2>Ingredients</h2></th>
-                        <th>
-                        <table>
-                            each item in selected_recipe.recipe.ingredients
-                                .item
-                                <tr>
-                                    <td>
-                                        p #{item.text}
-                                    </td>
-                                    <td>
-                                        p Nutrion for food item
-                                    </td>
-                                </tr>
-                        </table>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th><h2>Calories</h2></th>
-                        <th>
-                            p #{selected_recipe.recipe.calories} kcal
-                        </th>
-                    </tr>
-                    <tr>
-                        <th><h2>Steps</h2></th>
-                        <th><a href=#{selected_recipe.recipe.url}>#{selected_recipe.recipe.url}</a></th>
-                    </tr>
-                    <tr>
-                        <th><h2>Nutrients</h2></th>
-                        <th>
-                            <table>
-                            each item in selected_recipe.recipe.totalNutrients
-                                .item
-                                <tr>
-                                <th>
-                                   p <h3>#{item.label}</h3>
-                                </th>
-                                <th>
-                                    p #{item.quantity}#{item.unit}
-                                </th>
-                                </tr>
-                            </table>
-                        </th>
-                    </tr>
-                </table>
+                <div class="selectedRecipe"></div>
             </th>
         </tr>
     </table>
     
-    script(src='/javascripts/summary.js')
+    script(src='/javascripts/recipeShow.js')
     

@@ -4,33 +4,19 @@ const logger = require('morgan');
 
 const router = express.Router();
 
-router.get('/food/:query/:selected', (req, res) => {
-    const options = createRecepieOptions(req.params.query);
+router.get('/food/:query', (req, res) => {
+    const options = createRecepieOptions(req.params.query,req.query.selected);
 
     const url = `https://${options.hostname}${options.path}`;
-    // const nextURL = `https://${options.hostname}${options.path}&from=${parseInt(options.start)+10}`;
-    // const prevURL = `https://${options.hostname}${options.path}&from=${parseInt(options.start)-10}`;
 
-    console.log(url)
-
-    axios.get(url)
+    if(req.query.selected == undefined){
+        //Just show all recipes with no selected
+        axios.get(url)
         .then( (rsp) => {
             const { data } = rsp;
 
-            // axios.get(temp+url)
-            //     .then((h)  => {
-
-            //         //get the data i want from the 2nd api
-
-            //         if(data.hits.length > 0){
-            //             res.render("recipe_overall", { recipes: data.hits, nutirents: stuff})
-            //         }else{
-            //             res.render("No_Recipes_avaliable")
-            //         }  
-            //     })
-            // res.json({data})
-            if(data.hits.length > 0){
-                res.render("recipe_overall", { recipes: data.hits, selected_index:parseInt(req.params.selected)})
+            if(data.hits.length > 1){
+                res.render("recipe_overall", { recipes: data.hits, query: req.params.query})
             }else{
                 res.render("No_Recipes_avaliable")
             }
@@ -38,6 +24,21 @@ router.get('/food/:query/:selected', (req, res) => {
         .catch((error) => {
             res.render("No_Recipes_avaliable")
         })
+    }else{
+        //A recipe is selected. get a recipe and send back ingredients ect
+        axios.get(url)
+        .then( (rsp) => {
+            const { data } = rsp;
+
+            // console.log(data[0])
+
+            res.send(data[0])
+            res.end()
+        })
+        .catch((error) => {
+            // res.render("No_Recipes_avaliable")
+        })
+    }
 });
 
 const recipe_search = {
@@ -46,23 +47,26 @@ const recipe_search = {
     app_key: "bf4c7cc92afc5e302d35489673d0b095",
 };
 
-function createRecepieOptions(query,start) {
+function createRecepieOptions(query,selectedRecipe) {
     const options = {
         hostname: 'api.edamam.com',
         port: 443,
         path: '/search?',
         method: 'GET',
-        start: start
     }
 
-    const numItems = 5  //Number of items to display on page
-    const end = parseInt(start)+numItems
-
-    const str = "q="+ query +
-    '&app_id=' + recipe_search.app_id +
-    '&app_key=' + recipe_search.app_key +
-    '&from=0' + 
-    '&to=40';
+    var str = "";
+    if(selectedRecipe != undefined){
+        str = "r="+ encodeURIComponent(selectedRecipe) +
+        '&app_id=' + recipe_search.app_id +
+        '&app_key=' + recipe_search.app_key;
+    }else{
+        str = "q="+ query +
+        '&app_id=' + recipe_search.app_id +
+        '&app_key=' + recipe_search.app_key +
+        '&from=0' + 
+        '&to=40';
+    }
 
     options.path += str;
     return options;

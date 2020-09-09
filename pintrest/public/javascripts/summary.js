@@ -8,7 +8,7 @@ const titleFetch = (event) => {
 
   console.log(selected_title)
 
-  fetch(`/edamam/food/${title}/0`,{ method: 'POST', redirect: 'follow'})
+  fetch(`/edamam/food/${title}`,{ method: 'POST', redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
       redirect: window.location.assign(data.url) 
@@ -60,11 +60,16 @@ for (let button of recipeButtons) {
 
 //Previous page
 var prevPage = document.getElementById('prevPage');
-prevPage.addEventListener("click", (event) => gotoPrevPage(event));
+if(prevPage != undefined){
+  prevPage.addEventListener("click", (event) => gotoPrevPage(event));
+}
+
 
 //Next page
 var nextPage = document.getElementById('nextPage');
-nextPage.addEventListener("click", (event) => gotoNextPage(event));
+if(nextPage != undefined){
+  nextPage.addEventListener("click", (event) => gotoNextPage(event));
+}
 
 
 

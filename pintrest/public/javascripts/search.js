@@ -50,8 +50,6 @@ item.addEventListener('submit',function(e) {
 
     document.querySelector('.Results').innerHTML = items[0];
 
-    // console.log(items)
-    // console.log(itemNutrientsString)
 });
 
 

@@ -6,7 +6,6 @@ const redditHomeRouter = require('./routes/reddit_no_search');
 const redditSearchRouter = require('./routes/reddit_search');
 const edamamRouter = require('./routes/edamam');
 const foodNutritionRouter = require('./routes/nutrition');
-
 const app = express();
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -24,6 +23,7 @@ app.use('/search/',redditSearchRouter);
 
 //For searching recipes
 app.use("/edamam", edamamRouter);
+
 
 //For nutrion of specific food items
 app.use("/nutrition", foodNutritionRouter);

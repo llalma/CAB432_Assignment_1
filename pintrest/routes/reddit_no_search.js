@@ -11,8 +11,6 @@ router.get('/', (req, res) => {
     //Get top 20 from the r/food subreddit
     const url = "https://" + options.hostname+options.path
 
-    console.log(url)
-
     axios.get(url)
         .then( (rsp) => {
             const { data } = rsp;
