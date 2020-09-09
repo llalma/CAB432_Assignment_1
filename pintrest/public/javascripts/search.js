@@ -13,33 +13,7 @@ a.addEventListener('submit',function(e) {
     }
 });
 
-//Food item search box
-
-function getFoodData(item,index){
-    var itemName = [];
-    var itemNutrientsString = [];
-
-    //Remove just blank lines to be safe.
-    if(item != ""){
-        fetch(`/nutrition/item/${item}`)
-            .then((res) => res.json())
-            .then((data) => {
-                alert(itemName)
-                itemName.push("hi")
-                alert(itemName)
-                // itemName.push(data.data.food.label);
-                // itemNutrientsString.push(data.data.food.nutrients);
-
-                // itemNutrientsString(data.data.food)
-                // redirect: window.location.assign(data.url) 
-            })
-            .catch((error) => console.log(error));
-    }
-
-    console.log(itemName);
-    // console.log(itemNutrientsString);
-}
-
+//Find nutrients in an item. input is split by newline char
 var item = document.getElementById('foodItemSearch');
 
 item.addEventListener('submit',function(e) {
@@ -48,8 +22,36 @@ item.addEventListener('submit',function(e) {
 
     //Split by new lines
     lines = b.split("\n")
-    
-    lines.forEach(getFoodData)
+
+    //Declare variables
+    var items = []
+    var itemNutrientsString = []
+
+    //Loop through each item in list and check its not empty
+    for(let i = 0;i<lines.length;i++){
+        if(lines[i] != ""){
+
+            //Promise makes code halt until a value is returned. If not here program would executre the logging whilst waiting for results from the fetch.
+            Promise.all([lines[i]].map(url =>
+                fetch(`/nutrition/item/${url}`).then(resp => resp.json())
+            )).then(data => {
+                items.push(data[0].data.food.label)
+                itemNutrientsString.push(data[0].data.food.nutrients)
+            })
+        }
+    }
+
+    console.log("printing items array")
+    console.log(items)
+
+    console.log("printing 0th position of items array")
+    console.log(items[0])
+
+
+    document.querySelector('.Results').innerHTML = items[0];
+
+    // console.log(items)
+    // console.log(itemNutrientsString)
 });
 
 

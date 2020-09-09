@@ -19,11 +19,21 @@ html
           </form>
         </td>
         <td>
-          //Input box for list of food items to get nutrition of. each item is seperated by new lines
-          p Get the nutrients of the items specified in the search box. Seperated by line.
-          <form id="foodItemSearch" method="get" action="http://localhost:3000/">
-            <textarea class="foodItemtext" id="foodItemtext" cols="30" rows="10"></textarea><input type="submit" value="Find Nutrients" class="foodbutton">
-          </form>
+          <table>
+            <tr>
+              <td>
+                //Input box for list of food items to get nutrition of. each item is seperated by new lines
+                p Get the nutrients of the items specified in the search box. Seperated by line.
+                <form id="foodItemSearch" method="get" action="http://localhost:3000/">
+                  <textarea class="foodItemtext" id="foodItemtext" cols="30" rows="10"></textarea>
+                  <input type="submit" value="Find Nutrients" class="foodbutton">
+                </form>
+              </td>
+              <td>
+                <div class="Results"></div>
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
     </table>
