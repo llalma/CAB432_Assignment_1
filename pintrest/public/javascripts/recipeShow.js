@@ -13,7 +13,7 @@ const recipeShow = (event) => {
     fetch(`${temp[0]}?selected=${uri}`)
         .then((res) => res.json())
         .then((data) => {
-            htmlString = fillHTML(data.ingredients,data.calories,data.calories,data.totalNutrients)
+            htmlString = fillHTML(data.label,data.ingredients,data.calories,data.calories,data.totalNutrients)
 
             document.querySelector('.selectedRecipe').innerHTML = htmlString;
         })
@@ -21,11 +21,19 @@ const recipeShow = (event) => {
 }
 
 
-function fillHTML(ingredients,calories,url,totalNutrients){
+function fillHTML(title,ingredients,calories,url,totalNutrients){
     //Fills out the required html string to paste directly into the old html
 
     var str = `
     <table>
+        <tr>
+            <td>
+                <h2> Title </h2>
+            </td>
+            <td>
+                ${title}
+            </td>
+        </tr>
         <tr>
             <th><h2>Ingredients</h2></th>
             <th>
@@ -35,10 +43,10 @@ function fillHTML(ingredients,calories,url,totalNutrients){
     for(let i=0;i<ingredients.length;i++){
         str += ` <tr>
             <td>
-                p ${ingredients[i].text}
+                 ${ingredients[i].text}
             </td>
             <td>
-                p Nutrion for food item
+                 Nutrion for food item
             </td>
         </tr>`
     }
@@ -50,7 +58,7 @@ function fillHTML(ingredients,calories,url,totalNutrients){
             <tr>
                 <th><h2>Calories</h2></th>
                 <th>
-                    p ${calories} kcal
+                    ${calories} kcal
                 </th>
             </tr>
             <tr>
@@ -67,16 +75,16 @@ function fillHTML(ingredients,calories,url,totalNutrients){
     for(var key in totalNutrients){
         str += ` <tr>
                     <th>
-                        p <h3>${totalNutrients[key].label}</h3>
+                         <h3>${totalNutrients[key].label}</h3>
                     </th>
                     <th>
-                        p ${totalNutrients[key].quantity}${totalNutrients[key].unit}
+                         ${totalNutrients[key].quantity} ${totalNutrients[key].unit}
                     </th>
                     </tr>`
     }
 
     str += `    </table>
-                /th>
+                </th>
             </tr>
         </table>`
 
