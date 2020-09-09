@@ -24,19 +24,18 @@ block content
       <th>
         button(class="getRecipe",value=post.data.title) Get Recipe
       </th>
-      //- Get Nutrients
-      <th>
-  
-      </th>
     </tr>
   </table>
 
   <table style="width:100%; text-align:center; border-collapse: collapse">
     <tr>
-      <td>
-        button(id="prevPage",value=`before=${before}&after=${after}`) Previous Page
+      <td width="50%">
+        if before != null
+          button(id="prevPage",value=`before=${before}&after=${after}`) Previous Page
+        else
+          button(id="prevPage",value=`before=${before}&after=${after}`,disabled, style="color: white;") Previous Page
       </td>
-      <td>
+      <td width="50%">
         button(id="nextPage",value=`before=${before}&after=${after}`) Next Page
       </td>
     </tr>
