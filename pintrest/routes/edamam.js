@@ -16,6 +16,18 @@ router.get('/food/:query/:selected', (req, res) => {
     axios.get(url)
         .then( (rsp) => {
             const { data } = rsp;
+
+            // axios.get(temp+url)
+            //     .then((h)  => {
+
+            //         //get the data i want from the 2nd api
+
+            //         if(data.hits.length > 0){
+            //             res.render("recipe_overall", { recipes: data.hits, nutirents: stuff})
+            //         }else{
+            //             res.render("No_Recipes_avaliable")
+            //         }  
+            //     })
             // res.json({data})
             if(data.hits.length > 0){
                 res.render("recipe_overall", { recipes: data.hits, selected_index:parseInt(req.params.selected)})

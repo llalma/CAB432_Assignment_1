@@ -9,10 +9,24 @@ html
     a(href=`http://localhost:3000/`)
       <h1>Search r/Food</h1>
     
-    //Search box, can also leave blank to return to landing page
-    <form id="tfnewsearch" method="get" action="http://localhost:3000/">
-      <input type="text" class="tftextinput" id="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
-    </form>
+    <table>
+      <tr>
+        <td>
+          //Search box, can also leave blank to return to landing page
+          p Search r/food for posts containing the items
+          <form id="tfnewsearch" method="get" action="http://localhost:3000/">
+            <input type="text" class="tftextinput" id="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
+          </form>
+        </td>
+        <td>
+          //Input box for list of food items to get nutrition of. each item is seperated by new lines
+          p Get the nutrients of the items specified in the search box. Seperated by line.
+          <form id="foodItemSearch" method="get" action="http://localhost:3000/">
+            <textarea class="foodItemtext" id="foodItemtext" cols="30" rows="10"></textarea><input type="submit" value="Find Nutrients" class="foodbutton">
+          </form>
+        </td>
+      </tr>
+    </table>
 
     script(src='/javascripts/search.js')
 

@@ -11,7 +11,7 @@ const titleFetch = (event) => {
   fetch(`/edamam/food/${title}/0`,{ method: 'POST', redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
-      redirect: window.location.replace(data.url) 
+      redirect: window.location.assign(data.url) 
     })
     .catch((error) => console.log(error));
 };
@@ -34,7 +34,7 @@ function gotoPrevPage(){
   fetch(`/?${event.target.value}&dir=previous`,{ method: 'POST', redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
-      redirect: window.location.replace(data.url) 
+      redirect: window.location.assign(data.url) 
     })
     .catch((error) => console.log(error));
 }
@@ -46,7 +46,7 @@ function gotoNextPage(){
   fetch(`/?${event.target.value}&dir=forward`,{ method: 'POST', redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
-      redirect: window.location.replace(data.url) 
+      redirect: window.location.assign(data.url) 
     })
     .catch((error) => console.log(error));
 }

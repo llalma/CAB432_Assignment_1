@@ -30,9 +30,18 @@ block content
                     <tr>
                         <th><h2>Ingredients</h2></th>
                         <th>
+                        <table>
                             each item in selected_recipe.recipe.ingredients
                                 .item
-                                p #{item.text}
+                                <tr>
+                                    <td>
+                                        p #{item.text}
+                                    </td>
+                                    <td>
+                                        p Nutrion for food item
+                                    </td>
+                                </tr>
+                        </table>
                         </th>
                     </tr>
                     <tr>

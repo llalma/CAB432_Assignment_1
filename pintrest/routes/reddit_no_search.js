@@ -6,9 +6,6 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
 
-    console.log(req.query.before)
-    console.log(req.query.after)
-
     const options = createRedditOptions(req.query.after,req.query.before,req.query.dir);
 
     //Get top 20 from the r/food subreddit

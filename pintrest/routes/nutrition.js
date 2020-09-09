@@ -15,9 +15,12 @@ router.get('/item/:query', (req, res) => {
         .then( (rsp) => {
             const { data } = rsp;
 
+            // res.json("hello")
+            res.send({data: data.hints[0]})
+
             
-            //Only get first one, as it will hopefull be the closest one. could show all with a loop if needed though. would be similar to recipes or reddit though.
-            res.render("nutrition", { item: data.hints[0]})
+            // //Only get first one, as it will hopefull be the closest one. could show all with a loop if needed though. would be similar to recipes or reddit though.
+            // res.render("nutrition", { item: data.hints[0]})
         })
         .catch((error) => {
             res.render("No_Recipes_avaliable")
