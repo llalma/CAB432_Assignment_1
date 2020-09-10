@@ -13,6 +13,14 @@ a.addEventListener('submit',function(e) {
     }
 });
 
+async function temp(url) 
+{
+  let resp = await fetch(`/nutrition/item/${url}`);
+  let data = await resp.json()
+  return data;
+}
+
+
 //Find nutrients in an item. input is split by newline char
 var item = document.getElementById('foodItemSearch');
 
@@ -31,24 +39,26 @@ item.addEventListener('submit',function(e) {
     for(let i = 0;i<lines.length;i++){
         if(lines[i] != ""){
 
-            //Promise makes code halt until a value is returned. If not here program would executre the logging whilst waiting for results from the fetch.
-            Promise.all([lines[i]].map(url =>
-                fetch(`/nutrition/item/${url}`).then(resp => resp.json())
-            )).then(data => {
-                items.push(data[0].data.food.label)
-                itemNutrientsString.push(data[0].data.food.nutrients)
-            })
+            temp(lines[i])
+                .then(data => {
+                        items.push(data.data.food.label)
+                        itemNutrientsString.push(data.data.food.nutrients)
+                    })
+                .then(j => {
+                    console.log(items)
+                    console.log(itemNutrientsString)
+                })
         }
     }
 
-    console.log("printing items array")
-    console.log(items)
+    // console.log("printing items array")
+    // console.log(items)
 
-    console.log("printing 0th position of items array")
-    console.log(items[0])
+    // console.log("printing 0th position of items array")
+    // console.log(items[0])
 
 
-    document.querySelector('.Results').innerHTML = items[0];
+    // document.querySelector('.Results').innerHTML = items[0];
 
 });
 
