@@ -39,12 +39,16 @@ async function temp2(lines){
                     })
                 .then(j => {
                     //Add them to the dislay string
-                    console.log(nutrients)
-
+                    
+                    //New row per food item, pre makes each addition on a new line.
                     display += `<tr><td>${label}</td><td><pre>`
+
+                    //Actually add the nutrients to the cell
                     for(const nut of nutrients){
                         display += nut+"\n"
                     }
+
+                    //Close the row as all nutrients were added
                     display += `</pre></td></tr>`
                 })
 
