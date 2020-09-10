@@ -3,7 +3,7 @@ extends layout
 
 block content
 
-  h1 Returned Images
+  h1 Returned Posts
   //- #{JSON.stringify(articles)}
   <table>
   each post in posts
@@ -33,7 +33,7 @@ block content
         if before != null
           button(id="prevPage",value=`before=${before}&after=${after}`) Previous Page
         else
-          button(id="prevPage",value=`before=${before}&after=${after}`,disabled, style="color: white;") Previous Page
+          //- button(id="prevPage",value=`before=${before}&after=${after}`,disabled, style="color: white;") Previous Page
       </td>
       <td width="50%">
         button(id="nextPage",value=`before=${before}&after=${after}`) Next Page

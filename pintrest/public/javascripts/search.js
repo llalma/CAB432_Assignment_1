@@ -9,7 +9,7 @@ a.addEventListener('submit',function(e) {
     if(b === ""){
         window.location.href = 'http://localhost:3000/';
     }else{
-        window.location.href = 'http://localhost:3000/search/'+b;
+        window.location.href = 'http://localhost:3000/?search='+b;
     }
 });
 

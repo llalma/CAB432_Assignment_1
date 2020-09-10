@@ -25,10 +25,31 @@ function titleCleanup(title){
   return title
 }
 
+function getSearchQuery(){
+  //return the search query from the current url. to pass when changing pages in a search
+
+  var url = window.location.href
+
+  console.log(url)
+  var myRegexp = /((?<=search=)(.*)(?=&)|(?<=search=)(.*)(?=$))/g;
+  var url = url.match(myRegexp);
+
+  return url
+}
+
 function gotoPrevPage(){
   const before = event.target.value
 
-  fetch(`/?${event.target.value}&dir=previous`,{ redirect: 'follow'})
+  //get search query
+  const q = getSearchQuery()
+
+  //Get url for paging
+  let url = `/?${event.target.value}&dir=previous`
+  if(q != undefined){
+    url += `&search=${q[0]}`
+  }
+
+  fetch(url,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
       redirect: window.location.assign(data.url) 
@@ -39,9 +60,19 @@ function gotoPrevPage(){
 function gotoNextPage(){
   const after = event.target.value
 
-  fetch(`/?${event.target.value}&dir=forward`,{ redirect: 'follow'})
+  //get search query
+  const q = getSearchQuery()
+
+  //Get url for paging
+  let url = `/?${event.target.value}&dir=forward`
+  if(q != undefined){
+    url += `&search=${q[0]}`
+  }
+  
+  fetch(url,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
+      console.log(data)
       redirect: window.location.assign(data.url) 
     })
     .catch((error) => console.log(error));
