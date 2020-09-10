@@ -13,18 +13,62 @@ const recipeShow = (event) => {
     fetch(`${temp[0]}?selected=${uri}`)
         .then((res) => res.json())
         .then((data) => {
-            htmlString = fillHTML(data.label,data.ingredients,data.calories,data.calories,data.totalNutrients)
 
-            document.querySelector('.selectedRecipe').innerHTML = htmlString;
+            fillHTML(data.label,data.ingredients,data.calories,data.url,data.totalNutrients)
+                .then(htmlString =>{
+                    console.log(data.ingredients)
+                    document.querySelector('.selectedRecipe').innerHTML = htmlString;
+                })
         })
         .catch((error) => console.log(error));
 }
 
+function afterIngredientsHTML(calories,url,totalNutrients){
+    var htmlString = ""
 
-function fillHTML(title,ingredients,calories,url,totalNutrients){
+    htmlString += `
+    </th>
+        </tr>
+        <tr>
+            <th><h2>Calories</h2></th>
+            <th>
+                ${calories} kcal
+            </th>
+        </tr>
+        <tr>
+            <th><h2>Steps</h2></th>
+            <th><a href=${url}>${url}</a></th>
+        </tr>
+        <tr>
+            <th><h2>Nutrients</h2></th>
+            <th>
+                <table>`
+
+    //Nutrients
+    for(var key in totalNutrients){
+        htmlString += ` <tr>
+                    <th>
+                        <h3>${totalNutrients[key].label}</h3>
+                    </th>
+                    <th>
+                        ${totalNutrients[key].quantity} ${totalNutrients[key].unit}
+                    </th>
+                    </tr>`
+    }
+
+    htmlString += `    </table>
+                </th>
+            </tr>
+        </table>`
+
+    return htmlString
+}
+
+
+async function fillHTML(title,ingredients,calories,url,totalNutrients){
     //Fills out the required html string to paste directly into the old html
 
-    var str = `
+    var htmlString = `
     <table>
         <tr>
             <td>
@@ -36,57 +80,81 @@ function fillHTML(title,ingredients,calories,url,totalNutrients){
         </tr>
         <tr>
             <th><h2>Ingredients</h2></th>
-            <th>
-            <table>`
+            <th>`
 
-    //Ingreadients
-    for(let i=0;i<ingredients.length;i++){
-        str += ` <tr>
-            <td>
-                 ${ingredients[i].text}
-            </td>
-            <td>
-                 Nutrion for food item
-            </td>
-        </tr>`
+    //Get the html string for the ingridents
+    await getHTMLstr(ingredients)
+        .then(display => {
+            htmlString += display + `</table>`
+
+            htmlString += afterIngredientsHTML(calories,url,totalNutrients)
+            
+        })
+        .catch((error) => {
+            console.log(error)
+            htmlString += "Unable to show nutrients due to how api returns data. Need a higher level liscense to return ingredients as an ingredient object as listed on the api. Can look in console for how the json currently looks for an ingredient."
+
+            //Just display ingredients without nutrients
+            htmlString += "<table>"
+            for(let i=0;i<ingredients.length;i++){
+                htmlString += ` <tr>
+                    <td>
+                         ${ingredients[i].text}
+                    </td>
+                </tr>`
+            }
+            htmlString += "</table>"
+
+
+            htmlString += afterIngredientsHTML(calories,url,totalNutrients)
+                
+        });
+    return htmlString   
+}
+
+
+async function getNutritions(url) 
+{
+  let resp = await fetch(`/nutrition/item/${url}`);
+  let data = await resp.json()
+  return data;
+}
+
+async function getHTMLstr(lines){
+    let label = "";
+    let nutrients = "";
+
+    //Create a table for results
+    let display = "<table>"
+
+    //Loop through each item in list and check its not empty
+    for(let i = 0;i<lines.length;i++){
+        if(lines[i] != ""){
+
+            //Get results from api, use await to stop until results are avaliable
+            await getNutritions(lines[i].text)
+                .then(data => {
+                        label = data.data.food.label
+                        nutrients = JSON.stringify(data.data.food.nutrients).replace("{","").replace("}","").split(",")
+                    })
+                .then(j => {
+                    //Add them to the dislay string
+                    
+                    //New row per food item, pre makes each addition on a new line.
+                    display += `<tr><td>${label}</td><td><pre>`
+
+                    //Actually add the nutrients to the cell
+                    for(const nut of nutrients){
+                        display += nut+"\n"
+                    }
+
+                    //Close the row as all nutrients were added
+                    display += `</pre></td></tr>`
+                })
+
+        }
     }
-    
-    str += `
-    </table>
-        </th>
-            </tr>
-            <tr>
-                <th><h2>Calories</h2></th>
-                <th>
-                    ${calories} kcal
-                </th>
-            </tr>
-            <tr>
-                <th><h2>Steps</h2></th>
-                <th><a href=${url}>${url}</a></th>
-            </tr>
-            <tr>
-                <th><h2>Nutrients</h2></th>
-                <th>
-                    <table>`
 
-    //Nutrients
-    
-    for(var key in totalNutrients){
-        str += ` <tr>
-                    <th>
-                         <h3>${totalNutrients[key].label}</h3>
-                    </th>
-                    <th>
-                         ${totalNutrients[key].quantity} ${totalNutrients[key].unit}
-                    </th>
-                    </tr>`
-    }
-
-    str += `    </table>
-                </th>
-            </tr>
-        </table>`
-
-    return str
+    //Return display string
+    return display
 }

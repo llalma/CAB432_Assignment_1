@@ -13,14 +13,14 @@ a.addEventListener('submit',function(e) {
     }
 });
 
-async function temp(url) 
+async function getNutritions(url) 
 {
   let resp = await fetch(`/nutrition/item/${url}`);
   let data = await resp.json()
   return data;
 }
 
-async function temp2(lines){
+async function getHTMLstr(lines){
     let label = "";
     let nutrients = "";
 
@@ -32,7 +32,7 @@ async function temp2(lines){
         if(lines[i] != ""){
 
             //Get results from api, use await to stop until results are avaliable
-            await temp(lines[i])
+            await getNutritions(lines[i])
                 .then(data => {
                         label = data.data.food.label
                         nutrients = JSON.stringify(data.data.food.nutrients).replace("{","").replace("}","").split(",")
@@ -73,7 +73,7 @@ item.addEventListener('submit',function(e) {
     lines = b.split("\n")
 
     //Get results from server. have to use async method to ensure the data is avaliable before attempting to display
-    temp2(lines)
+    getHTMLstr(lines)
         .then(display => {
             document.querySelector('.Results').innerHTML += display + `</table>`
         })
