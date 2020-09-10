@@ -47,6 +47,21 @@ const recipe_search = {
     app_key: "bf4c7cc92afc5e302d35489673d0b095",
 };
 
+var removeUselessWords = function(txt) {
+    var uselessWordsArray = 
+        [
+          "a", "at", "be", "can", "cant", "could", "couldnt", 
+          "do", "does", "how", "i", "in", "is", "many", "much", "of", 
+          "on", "or", "should", "shouldnt", "so", "such", "the", 
+          "them", "they", "to", "us",  "we", "what", "who", "why", 
+          "with", "wont", "would", "wouldnt", "you"
+        ];
+			
+	  var expStr = uselessWordsArray.join("|");
+	  return txt.replace(new RegExp('\\b(' + expStr + ')\\b', 'gi'), ' ')
+                    .replace(/\s{2,}/g, ' ');
+  }
+
 function createRecepieOptions(query,selectedRecipe) {
     const options = {
         hostname: 'api.edamam.com',
@@ -61,11 +76,14 @@ function createRecepieOptions(query,selectedRecipe) {
         '&app_id=' + recipe_search.app_id +
         '&app_key=' + recipe_search.app_key;
     }else{
+        //Remove common words from title before querying it.
+        query = removeUselessWords(query)
+
         str = "q="+ query +
         '&app_id=' + recipe_search.app_id +
         '&app_key=' + recipe_search.app_key +
         '&from=0' + 
-        '&to=40';
+        '&to=10';
     }
 
     options.path += str;
