@@ -51,6 +51,11 @@ async function getHTMLstr(lines){
                     //Close the row as all nutrients were added
                     display += `</pre></td></tr>`
                 })
+                .catch((error) => {
+                    display += `One of the entered Items does not exist </table>`
+                    console.log(error)
+                });
+
 
         }
     }

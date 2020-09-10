@@ -6,9 +6,7 @@ const titleFetch = (event) => {
   title = titleCleanup(title)
   selected_title = title
 
-  console.log(selected_title)
-
-  fetch(`/edamam/food/${title}`,{ method: 'POST', redirect: 'follow'})
+  fetch(`/edamam/food/${title}`,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
       redirect: window.location.assign(data.url) 
@@ -29,9 +27,8 @@ function titleCleanup(title){
 
 function gotoPrevPage(){
   const before = event.target.value
-  console.log(before)
 
-  fetch(`/?${event.target.value}&dir=previous`,{ method: 'POST', redirect: 'follow'})
+  fetch(`/?${event.target.value}&dir=previous`,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
       redirect: window.location.assign(data.url) 
@@ -41,9 +38,8 @@ function gotoPrevPage(){
 
 function gotoNextPage(){
   const after = event.target.value
-  console.log(after)
 
-  fetch(`/?${event.target.value}&dir=forward`,{ method: 'POST', redirect: 'follow'})
+  fetch(`/?${event.target.value}&dir=forward`,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
       redirect: window.location.assign(data.url) 
