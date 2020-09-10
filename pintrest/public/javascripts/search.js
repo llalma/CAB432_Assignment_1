@@ -20,6 +20,40 @@ async function temp(url)
   return data;
 }
 
+async function temp2(lines){
+    let label = "";
+    let nutrients = "";
+
+    //Create a table for results
+    let display = "<table>"
+
+    //Loop through each item in list and check its not empty
+    for(let i = 0;i<lines.length;i++){
+        if(lines[i] != ""){
+
+            //Get results from api, use await to stop until results are avaliable
+            await temp(lines[i])
+                .then(data => {
+                        label = data.data.food.label
+                        nutrients = JSON.stringify(data.data.food.nutrients).replace("{","").replace("}","").split(",")
+                    })
+                .then(j => {
+                    //Add them to the dislay string
+                    console.log(nutrients)
+
+                    display += `<tr><td>${label}</td><td><pre>`
+                    for(const nut of nutrients){
+                        display += nut+"\n"
+                    }
+                    display += `</pre></td></tr>`
+                })
+
+        }
+    }
+
+    //Return display string
+    return display
+}
 
 //Find nutrients in an item. input is split by newline char
 var item = document.getElementById('foodItemSearch');
@@ -28,38 +62,17 @@ item.addEventListener('submit',function(e) {
     e.preventDefault();
     var b = document.getElementById("foodItemtext").value;
 
+    //Clear current results if there are any
+    document.querySelector('.Results').innerHTML = ""
+
     //Split by new lines
     lines = b.split("\n")
 
-    //Declare variables
-    var items = []
-    var itemNutrientsString = []
-
-    //Loop through each item in list and check its not empty
-    for(let i = 0;i<lines.length;i++){
-        if(lines[i] != ""){
-
-            temp(lines[i])
-                .then(data => {
-                        items.push(data.data.food.label)
-                        itemNutrientsString.push(data.data.food.nutrients)
-                    })
-                .then(j => {
-                    console.log(items)
-                    console.log(itemNutrientsString)
-                })
-        }
-    }
-
-    // console.log("printing items array")
-    // console.log(items)
-
-    // console.log("printing 0th position of items array")
-    // console.log(items[0])
-
-
-    // document.querySelector('.Results').innerHTML = items[0];
-
+    //Get results from server. have to use async method to ensure the data is avaliable before attempting to display
+    temp2(lines)
+        .then(display => {
+            document.querySelector('.Results').innerHTML += display + `</table>`
+        })
 });
 
 
