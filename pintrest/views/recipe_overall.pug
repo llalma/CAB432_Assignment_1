@@ -11,13 +11,13 @@ block content
                         .item
                         <tr>
                             //- Title, click on title to get recipe and ingredients ect.
-                            <th>
+                            <td class="buttonBox">
                                 button(class="recipeTitle",value=`${query},${recipe.recipe.uri}`) #{recipe.recipe.label}
-                            </th>
+                            </td>
                             //- Image, click on photo to go to larger view of image
-                            <th>
+                            <td>
                                 img(src=recipe.recipe.image,width="200" height="200",class="recipePicture",alt=recipe.recipe.label)
-                            </th>
+                            </td>
                         </tr>
                         - index += 1
                     </table>

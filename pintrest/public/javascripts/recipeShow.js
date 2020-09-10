@@ -21,6 +21,18 @@ const recipeShow = (event) => {
                 })
         })
         .catch((error) => console.log(error));
+
+    //Make all button td boxes white, so no duplicated yello wboxes
+    const buttonBoxes = document.getElementsByClassName("buttonBox");
+
+    for (let button of buttonBoxes) {
+        button.style.backgroundColor = "white";
+
+    }
+
+    //Make selected item highlighted
+    boxSelected = event.target.parentNode
+    boxSelected.style.backgroundColor = "yellow";
 }
 
 function afterIngredientsHTML(calories,url,totalNutrients){
@@ -111,7 +123,6 @@ async function fillHTML(title,ingredients,calories,url,totalNutrients){
         });
     return htmlString   
 }
-
 
 async function getNutritions(url) 
 {
