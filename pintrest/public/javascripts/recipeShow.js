@@ -169,3 +169,66 @@ async function getHTMLstr(lines){
     //Return display string
     return display
 }
+
+function getSearchQuery(){
+    //return the search query from the current url. to pass when changing pages in a search
+  
+    var url = window.location.href
+  
+    console.log(url)
+    var myRegexp = /(?<=food\/)(.*)(?=\?from)/g;
+    var url = url.match(myRegexp);
+  
+    return url
+  }
+
+function gotoPrevPage(){
+    const before = event.target.value
+  
+  
+    //Get url for paging
+    let url = `?${event.target.value}`
+    //get search query
+    const q = getSearchQuery()
+  
+    fetch(`/edamam/food/${q}${url}`,{ redirect: 'follow'})
+      //Redirect to list of recipes
+      .then((data) => {
+        redirect: window.location.assign(data.url) 
+      })
+      .catch((error) => console.log(error));
+  }
+  
+function gotoNextPage(){
+    const after = event.target.value
+  
+    //Get url for paging
+    let url = `?${event.target.value}`
+
+    //get search query
+    const q = getSearchQuery()
+
+    
+    fetch(`/edamam/food/${q}${url}`,{ redirect: 'follow'})
+      //Redirect to list of recipes
+      .then((data) => {
+        console.log(data)
+        redirect: window.location.assign(data.url) 
+      })
+      .catch((error) => console.log(error));
+}
+
+//Previous page
+var prevPage = document.getElementById('prevPage');
+if(prevPage != undefined){
+  prevPage.addEventListener("click", (event) => gotoPrevPage(event));
+}
+
+
+//Next page
+var nextPage = document.getElementById('nextPage');
+if(nextPage != undefined){
+  nextPage.addEventListener("click", (event) => gotoNextPage(event));
+}
+
+

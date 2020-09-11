@@ -6,7 +6,7 @@ const titleFetch = (event) => {
   title = titleCleanup(title)
   selected_title = title
 
-  fetch(`/edamam/food/${title}`,{ redirect: 'follow'})
+  fetch(`/edamam/food/${title}?from=0&to=10`,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
       redirect: window.location.assign(data.url) 

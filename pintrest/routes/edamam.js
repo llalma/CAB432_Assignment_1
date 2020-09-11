@@ -1,13 +1,16 @@
 const express = require('express');
 const axios = require('axios');
 const logger = require('morgan');
+const { format } = require('morgan');
 
 const router = express.Router();
 
 router.get('/food/:query', (req, res) => {
-    const options = createRecepieOptions(req.params.query,req.query.selected);
+    const options = createRecepieOptions(req.params.query,req.query.selected,req.query.from,req.query.to);
 
     const url = `https://${options.hostname}${options.path}`;
+
+    console.log(url)
 
     if(req.query.selected == undefined){
         //Just show all recipes with no selected
@@ -16,7 +19,7 @@ router.get('/food/:query', (req, res) => {
             const { data } = rsp;
 
             if(data.hits.length > 1){
-                res.render("recipe_overall", { recipes: data.hits, query: req.params.query})
+                res.render("recipe_overall", { recipes: data.hits, query: req.params.query, from: data.from, to: data.to})
             }else{
                 res.render("No_Recipes_avaliable")
             }
@@ -62,7 +65,7 @@ var removeUselessWords = function(txt) {
                     .replace(/\s{2,}/g, ' ');
   }
 
-function createRecepieOptions(query,selectedRecipe) {
+function createRecepieOptions(query,selectedRecipe,from,to) {
     const options = {
         hostname: 'api.edamam.com',
         port: 443,
@@ -81,10 +84,18 @@ function createRecepieOptions(query,selectedRecipe) {
 
         str = "q="+ query +
         '&app_id=' + recipe_search.app_id +
-        '&app_key=' + recipe_search.app_key +
-        '&from=0' + 
-        '&to=10';
+        '&app_key=' + recipe_search.app_key 
     }
+    
+    //Paging
+    if(from == undefined){
+        str += '&from=0' + 
+        '&to=10';
+    }else{
+        str += '&from=' + from 
+        + '&to=' + to;
+    }
+
 
     options.path += str;
     return options;

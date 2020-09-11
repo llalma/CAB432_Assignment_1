@@ -6,7 +6,7 @@ block content
     <table>
         <tr>
             <th>
-                p Showing the #{recipes.length} most popular recipes
+                p Showing the #{recipes.length} most popular recipes, if less than 10, there is only that many recipes.
                     <table>
                     each recipe in recipes
                         .item
@@ -20,13 +20,24 @@ block content
                                 img(src=recipe.recipe.image,width="200" height="200",class="recipePicture",alt=recipe.recipe.label)
                             </td>
                         </tr>
-                        - index += 1
                     </table>
             </th>
 
             <th>
                 <div class="selectedRecipe"></div>
             </th>
+        </tr>
+    </table>
+
+    <table style="width:100%; text-align:center; border-collapse: collapse">
+        <tr>
+            <td width="50%">
+                if from != 0
+                    button(id="prevPage",value=`from=${from-10}&to=${to-10}`) Previous Page
+            </td>
+            <td width="50%">
+                button(id="nextPage",value=`from=${from+10}&to=${to+10}`) Next Page
+            </td>
         </tr>
     </table>
     
