@@ -16,7 +16,6 @@ const recipeShow = (event) => {
 
             fillHTML(data.label,data.ingredients,data.calories,data.url,data.totalNutrients)
                 .then(htmlString =>{
-                    console.log(data.ingredients)
                     document.querySelector('.selectedRecipe').innerHTML = htmlString;
                 })
         })
@@ -142,11 +141,14 @@ async function getHTMLstr(lines){
     for(let i = 0;i<lines.length;i++){
         if(lines[i] != ""){
 
+            const words = lines[i].text.split(" ")
+            
+
             //Get results from api, use await to stop until results are avaliable
             await getNutritions(lines[i].text)
                 .then(data => {
                         label = data.data.food.label
-                        nutrients = JSON.stringify(data.data.food.nutrients).replace("{","").replace("}","").split(",")
+                        nutrients = JSON.stringify(data.data.food.nutrients)
                     })
                 .then(j => {
                     //Add them to the dislay string
@@ -155,8 +157,15 @@ async function getHTMLstr(lines){
                     display += `<tr><td>${label}</td><td><pre>`
 
                     //Actually add the nutrients to the cell
-                    for(const nut of nutrients){
-                        display += nut+"\n"
+                    var obj = JSON.parse(nutrients);
+                    if(parseInt(words[0]) != NaN){
+                        for (var key in obj) {
+                            display += `${key}: ${obj[key]*parseInt(words[0])}\n`
+                        }
+                    }else{
+                        for (var key in obj) {
+                            display += `${key}: ${obj[key]}\n`
+                        }
                     }
 
                     //Close the row as all nutrients were added
@@ -175,7 +184,6 @@ function getSearchQuery(){
   
     var url = window.location.href
   
-    console.log(url)
     var myRegexp = /(?<=food\/)(.*)(?=\?from)/g;
     var url = url.match(myRegexp);
   
@@ -212,7 +220,6 @@ function gotoNextPage(){
     fetch(`/edamam/food/${q}${url}`,{ redirect: 'follow'})
       //Redirect to list of recipes
       .then((data) => {
-        console.log(data)
         redirect: window.location.assign(data.url) 
       })
       .catch((error) => console.log(error));
