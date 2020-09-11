@@ -31,36 +31,53 @@ async function getHTMLstr(lines){
     for(let i = 0;i<lines.length;i++){
         if(lines[i] != ""){
 
-            //Get results from api, use await to stop until results are avaliable
-            await getNutritions(lines[i])
-                .then(data => {
-                        label = data.data.food.label
-                        nutrients = JSON.stringify(data.data.food.nutrients).replace("{","").replace("}","").split(",")
-                    })
-                .then(j => {
-                    //Add them to the dislay string
-                    
-                    //New row per food item, pre makes each addition on a new line.
-                    display += `<tr><td>${label}</td><td><pre>`
-
-                    //Actually add the nutrients to the cell
-                    for(const nut of nutrients){
-                        display += nut+"\n"
-                    }
-
-                    //Close the row as all nutrients were added
-                    display += `</pre></td></tr>`
-                })
-                .catch((error) => {
-                    display += `One of the entered Items does not exist </table>`
-                    console.log(error)
-                });
-
-
+            //Split into words per line. Used to see if "1 cup flour" is specified vs jsut "flour"
+            const words = lines[i].split(" ");
+            
+            if(words.length == 3){
+                //In form of "1 cup flour"
+            }else if(words.length == 2){
+                //In form of "2 egg"
+                display += await temp(lines[i],words[0])
+            }else if(words.length == 1){
+                //In form of egg. Just return general size
+                display += await temp(lines[i],1)
+            }
         }
     }
 
     //Return display string
+    return display
+}
+
+async function temp(item,multiply){
+    let display = ""
+    //Get results from api, use await to stop until results are avaliable
+    await getNutritions(item)
+    .then(data => {
+            label = data.data.food.label
+            nutrients = JSON.stringify(data.data.food.nutrients)
+        })
+    .then(j => {
+        //Add them to the dislay string
+        
+        //New row per food item, pre makes each addition on a new line.
+        display += `<tr><td>${label}</td><td><pre>`
+
+        //Actually add the nutrients to the cell
+        var obj = JSON.parse(nutrients);
+        for (var key in obj) {
+            display += `${key}: ${obj[key]*multiply}\n`
+        }
+
+        //Close the row as all nutrients were added
+        display += `</pre></td></tr>`
+    })
+    .catch((error) => {
+        display += `One of the entered Items does not exist </table>`
+        console.log(error)
+    });
+    
     return display
 }
 
