@@ -24,6 +24,7 @@ html
               <td>
                 //Input box for list of food items to get nutrition of. each item is seperated by new lines
                 p Get the nutrients of the items specified in the search box. Seperated by line.
+                p Returns deafault mesurement sizes for each item. can specify a multiplyer in the form of "2 eggs" or "3 apples", otherwise "apple" is fine and will return 1 apples nutrients.
                 <form id="foodItemSearch" method="get" action="http://localhost:3000/">
                   <textarea class="foodItemtext" id="foodItemtext" cols="30" rows="10"></textarea>
                   <input type="submit" value="Find Nutrients" class="foodbutton">

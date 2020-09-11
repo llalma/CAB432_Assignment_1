@@ -34,12 +34,10 @@ async function getHTMLstr(lines){
             //Split into words per line. Used to see if "1 cup flour" is specified vs jsut "flour"
             const words = lines[i].split(" ");
             
-            if(words.length == 3){
-                //In form of "1 cup flour"
-            }else if(words.length == 2){
+            if(words.length == 2){
                 //In form of "2 egg"
                 display += await temp(lines[i],words[0])
-            }else if(words.length == 1){
+            }else{
                 //In form of egg. Just return general size
                 display += await temp(lines[i],1)
             }
