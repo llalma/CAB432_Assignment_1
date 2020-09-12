@@ -19,7 +19,7 @@ router.get('/food/:query', (req, res) => {
             const { data } = rsp;
 
             if(data.hits.length > 1){
-                res.render("recipe_overall", { recipes: data.hits, query: req.params.query, from: data.from, to: data.to})
+                res.render("Recipe_overall", { recipes: data.hits, query: req.params.query, from: data.from, to: data.to})
             }else{
                 res.render("No_Recipes_avaliable")
             }
