@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
                 if(data.data.children.length > 0){
                     res.render("reddit_display", { posts: data.data.children,before: data.data.before ,after: data.data.after});
                 }else{
-                    res.render("No_posts", { before: data.data.before ,after: data.data.after});
+                    res.render("no_posts", { before: data.data.before ,after: data.data.after});
                 }
             }
             
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
         })
         .catch((error) => {
             console.error(error);
-            res.render("No_posts", { before: data.data.before ,after: data.data.after});
+            res.render("no_posts", { before: data.data.before ,after: data.data.after});
         })
 });
 
