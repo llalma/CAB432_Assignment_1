@@ -9,13 +9,6 @@ const app = express();
 const hostname = '127.0.0.1';
 const port = 3000;
 
-//To stop execution on docker container
-var process = require('process')
-process.on('SIGINT', () => {
-  console.info("Interrupted")
-  process.exit(0)
-})
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
