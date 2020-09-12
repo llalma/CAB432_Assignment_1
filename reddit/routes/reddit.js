@@ -17,10 +17,10 @@ router.get('/', (req, res) => {
 
             console.log(req.query.dir)
             if(req.query.dir == undefined){
-                res.render("Reddit_display", { posts: data.data.children,before: null ,after: data.data.after});
+                res.render("reddit_display", { posts: data.data.children,before: null ,after: data.data.after});
             }else{
                 if(data.data.children.length > 0){
-                    res.render("Reddit_display", { posts: data.data.children,before: data.data.before ,after: data.data.after});
+                    res.render("reddit_display", { posts: data.data.children,before: data.data.before ,after: data.data.after});
                 }else{
                     res.render("No_posts", { before: data.data.before ,after: data.data.after});
                 }
