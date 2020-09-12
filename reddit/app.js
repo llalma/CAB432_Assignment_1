@@ -29,8 +29,6 @@ app.get('*', function(req, res) {
 
     //Render unexpected error page
     res.render("unexpectedError");
-
-    next(err)
 })
 
 
