@@ -6,7 +6,7 @@ block content
   h1 Returned Posts
   //- #{JSON.stringify(articles)}
   <h1>
-    p There was an error and no posts were found. Try again
+    p There was an error and no posts were found. Will return you to the previous page in 5 seconds.
   </h1>
 
   <table style="width:100%; text-align:center; border-collapse: collapse">
@@ -22,6 +22,9 @@ block content
       </td>
     </tr>
   </table>
+
+    script.
+      setTimeout(() => {  window.history.back(); }, 5000);
 
 
     
