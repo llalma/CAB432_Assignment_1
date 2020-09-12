@@ -30,7 +30,6 @@ function getSearchQuery(){
 
   var url = window.location.href
 
-  console.log(url)
   var myRegexp = /((?<=search=)(.*)(?=&)|(?<=search=)(.*)(?=$))/g;
   var url = url.match(myRegexp);
 
@@ -72,7 +71,6 @@ function gotoNextPage(){
   fetch(url,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
-      console.log(data)
       redirect: window.location.assign(data.url) 
     })
     .catch((error) => console.log(error));

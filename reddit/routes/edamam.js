@@ -10,7 +10,6 @@ router.get('/food/:query', (req, res) => {
 
     const url = `https://${options.hostname}${options.path}`;
 
-    console.log(url)
 
     if(req.query.selected == undefined){
         //Just show all recipes with no selected
@@ -33,13 +32,11 @@ router.get('/food/:query', (req, res) => {
         .then( (rsp) => {
             const { data } = rsp;
 
-            // console.log(data[0])
-
             res.send(data[0])
             res.end()
         })
         .catch((error) => {
-            // res.render("No_Recipes_avaliable")
+            res.render("No_Recipes_avaliable")
         })
     }
 });

@@ -21,6 +21,11 @@ html
           </form>
         </td>
         <td width="40%">
+          //Search box for recipes
+          p Search edamam recipes
+          <form id="recipeSearch" method="get" action="http://localhost:3000/">
+            <input type="text" class="recipeInput" id="recipeInput" name="q" size="21" maxlength="120" style="font-size:25px;"><input type="submit" value="search" class="tfbutton" style="height:50px;width:100px;font-size:20px;">
+          </form>
         </td>
         <td>
           <table style="border: 1px solid white;">

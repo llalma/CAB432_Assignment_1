@@ -121,4 +121,19 @@ item.addEventListener('submit',function(e) {
         })
 });
 
+//Recipe search
+var a = document.getElementById('recipeSearch');
+
+a.addEventListener('submit',function(e) {
+    e.preventDefault();
+    var b = document.getElementById('recipeInput').value;
+
+    fetch(`/edamam/food/${b}?from=0&to=10`,{ redirect: 'follow'})
+    //Redirect to list of recipes
+    .then((data) => {
+      redirect: window.location.assign(data.url) 
+    })
+    .catch((error) => console.log(error));
+});
+
 
