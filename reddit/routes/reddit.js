@@ -30,6 +30,7 @@ router.get('/', (req, res) => {
         })
         .catch((error) => {
             console.error(error);
+            res.render("No_posts", { before: data.data.before ,after: data.data.after});
         })
 });
 

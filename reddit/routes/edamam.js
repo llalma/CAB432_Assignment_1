@@ -24,6 +24,7 @@ router.get('/food/:query', (req, res) => {
             }
         })
         .catch((error) => {
+            console.log(error)
             res.render("No_Recipes_avaliable")
         })
     }else{
@@ -36,6 +37,7 @@ router.get('/food/:query', (req, res) => {
             res.end()
         })
         .catch((error) => {
+            console.log(error)
             res.render("No_Recipes_avaliable")
         })
     }

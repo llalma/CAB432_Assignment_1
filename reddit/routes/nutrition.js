@@ -23,6 +23,7 @@ router.get('/item/:query', (req, res) => {
             // res.render("nutrition", { item: data.hints[0]})
         })
         .catch((error) => {
+            console.log(error)
             res.render("No_Recipes_avaliable")
         })
 });

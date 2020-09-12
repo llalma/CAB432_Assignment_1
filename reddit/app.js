@@ -21,9 +21,17 @@ app.use('/',redditHomeRouter);
 //For searching recipes
 app.use("/edamam", edamamRouter);
 
-
 //For nutrion of specific food items
 app.use("/nutrition", foodNutritionRouter);
+
+//Error handiling for unexpected URLS, just catches everything that doesnt get caught by another statement.
+app.get('*', function(req, res) {
+
+    //Render unexpected error page
+    res.render("unexpectedError");
+
+    next(err)
+})
 
 
 

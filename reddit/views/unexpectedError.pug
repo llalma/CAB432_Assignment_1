@@ -1,0 +1,9 @@
+extends layout
+
+
+block content
+
+  h1 This error was not expected but still caught. Will return you to the previous page in 5 seconds.
+
+  script.
+    setTimeout(() => {  window.history.back(); }, 5000);
