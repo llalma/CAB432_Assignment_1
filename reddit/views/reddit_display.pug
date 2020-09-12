@@ -5,26 +5,26 @@ block content
 
   h1 Returned Posts
   //- #{JSON.stringify(articles)}
-  <table>
-  each post in posts
-    .item
-    
-    <tr>
-      //- Title, click on tilte to go to reddit post
-      <th>
-        a(href=`https://www.reddit.com/r/food/comments/${post.data.id}`)
-          button(class="redditTitle") #{post.data.title}
-      </th>
-      //- Image, click on photo to go to larger view of image
-      <th>
-        a(href=post.data.url)
-          img(src=post.data.url,width="200" height="200",class="redditPicture",alt=post.data.title)
-      </th>
-      //- Get recipe
-      <th>
-        button(class="getRecipe",value=post.data.title) Get Recipe
-      </th>
-    </tr>
+  <table style="width: 70%;">
+    each post in posts
+      .item
+      
+      <tr class="border_bottom" width="50%">
+        //- Title, click on tilte to go to reddit post
+        <td width="40%">
+          a(href=`https://www.reddit.com/r/food/comments/${post.data.id}`)
+            button(class="redditTitle") #{post.data.title}
+        </td>
+        //- Image, click on photo to go to larger view of image
+        <td width="15%">
+          a(href=post.data.url)
+            img(src=post.data.url,width="250" height="250",class="redditPicture",alt=post.data.title)
+        </td>
+        //- Get recipe
+        <td width="10%">
+          button(class="getRecipe",value=post.data.title) Get Recipe
+        </td>
+      </tr>
   </table>
 
   <table style="width:100%; text-align:center; border-collapse: collapse">
@@ -33,7 +33,7 @@ block content
         if before != null
           button(id="prevPage",value=`before=${before}&after=${after}`) Previous Page
         else
-          //- button(id="prevPage",value=`before=${before}&after=${after}`,disabled, style="color: white;") Previous Page
+          <p style="color: grey;font-size: 30px"> Previous Page </p>
       </td>
       <td width="50%">
         button(id="nextPage",value=`before=${before}&after=${after}`) Next Page

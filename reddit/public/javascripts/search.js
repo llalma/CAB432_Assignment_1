@@ -7,9 +7,14 @@ a.addEventListener('submit',function(e) {
     var b = document.getElementById('tftextinput').value;
 
     if(b === ""){
-        window.location.href = 'http://localhost:3000/';
+        home();
     }else{
-        window.location.href = 'http://localhost:3000/?search='+b;
+        fetch(`/?search=${b}`,{ redirect: 'follow'})
+        //Redirects to search terms
+        .then((data) => {
+            redirect: window.location.assign(data.url) 
+        })
+        .catch((error) => console.log(error));
     }
 });
 
@@ -44,6 +49,9 @@ async function getHTMLstr(lines){
         }
     }
 
+    //Close table of results
+    display += '</table>'
+
     //Return display string
     return display
 }
@@ -72,11 +80,25 @@ async function temp(item,multiply){
         display += `</pre></td></tr>`
     })
     .catch((error) => {
-        display += `One of the entered Items does not exist </table>`
+        display += `<tr><td>One of the entered Items does not exist</td> </tr>`
         console.log(error)
     });
-    
+
     return display
+}
+
+function home(){
+    //Redirect to home page. cant use localhost as it is not local host when hosted.
+    
+    const temp = window.location.href.split("/")[2];
+
+    if(temp.includes("local")){
+        //localhost, not https certified
+        window.location.href = "http://" + temp;
+    }else{
+        //AWS hosting uses https.
+        window.location.href = "https://" + temp;
+    }
 }
 
 //Find nutrients in an item. input is split by newline char

@@ -38,37 +38,37 @@ function afterIngredientsHTML(calories,url,totalNutrients){
     var htmlString = ""
 
     htmlString += `
-    </th>
+    </td>
         </tr>
-        <tr>
-            <th><h2>Calories</h2></th>
-            <th>
+        <tr class="border_bottom">
+            <td><h2>Calories</h2></td>
+            <td>
                 ${calories} kcal
-            </th>
+            </td>
         </tr>
-        <tr>
-            <th><h2>Steps</h2></th>
-            <th><a href=${url}>${url}</a></th>
+        <tr class="border_bottom">
+            <td><h2>Steps</h2></td>
+            <td><a href=${url}>${url}</a></td>
         </tr>
-        <tr>
-            <th><h2>Nutrients</h2></th>
-            <th>
+        <tr class="border_bottom">
+            <td><h2>Nutrients</h2></td>
+            <td>
                 <table>`
 
     //Nutrients
     for(var key in totalNutrients){
         htmlString += ` <tr>
-                    <th>
+                    <td>
                         <h3>${totalNutrients[key].label}</h3>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         ${totalNutrients[key].quantity} ${totalNutrients[key].unit}
-                    </th>
+                    </td>
                     </tr>`
     }
 
     htmlString += `    </table>
-                </th>
+                </td>
             </tr>
         </table>`
 
@@ -81,17 +81,17 @@ async function fillHTML(title,ingredients,calories,url,totalNutrients){
 
     var htmlString = `
     <table>
-        <tr>
-            <td>
+        <tr class="border_bottom">
+            <td class="border_bottom">
                 <h2> Title </h2>
             </td>
             <td>
                 ${title}
             </td>
         </tr>
-        <tr>
-            <th><h2>Ingredients</h2></th>
-            <th>`
+        <tr class="border_bottom">
+            <td><h2>Ingredients</h2></td>
+            <td>`
 
     //Get the html string for the ingridents
     await getHTMLstr(ingredients)
