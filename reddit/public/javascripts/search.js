@@ -95,13 +95,8 @@ function home(){
     
     const temp = window.location.href.split("/")[2];
 
-    if(temp.includes("local")){
-        //localhost, not https certified
-        window.location.href = "http://" + temp;
-    }else{
-        //AWS hosting uses https.
-        window.location.href = "https://" + temp;
-    }
+    //localhost, not https certified
+    window.location.href = "http://" + temp;
 }
 
 //Find nutrients in an item. input is split by newline char
