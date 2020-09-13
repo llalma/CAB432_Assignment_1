@@ -4,7 +4,7 @@ var a = document.getElementById('tfnewsearch');
 
 a.addEventListener('submit',function(e) {
     e.preventDefault();
-    var b = document.getElementById('tftextinput').value;
+    var b = document.getElementById('tftextinput').value.replace(/\W/g, '');
 
     if(b === ""){
         home();
@@ -36,8 +36,11 @@ async function getHTMLstr(lines){
     for(let i = 0;i<lines.length;i++){
         if(lines[i] != ""){
 
+            //Remove all not alpha numberic chars
+           
+
             //Split into words per line. Used to see if "1 cup flour" is specified vs jsut "flour"
-            const words = lines[i].split(" ");
+            const words =  lines[i].replace(/\W/g, '').split(" ");
             
             if(words.length == 2){
                 //In form of "2 egg"
@@ -68,7 +71,7 @@ async function temp(item,multiply){
         //Add them to the dislay string
         
         //New row per food item, pre makes each addition on a new line.
-        display += `<tr><td>${label}</td><td><pre>`
+        display += `<tr class="border_bottom"><td>${label}</td><td><pre>`
 
         //Actually add the nutrients to the cell
         var obj = JSON.parse(nutrients);
@@ -80,7 +83,7 @@ async function temp(item,multiply){
         display += `</pre></td></tr>`
     })
     .catch((error) => {
-        display += `<tr><td>One of the entered Items does not exist</td> </tr>`
+        display += `<tr class="border_bottom"><td>${item} does not exist</td><td></td> </tr>`
         console.log(error)
     });
 
@@ -126,7 +129,7 @@ var a = document.getElementById('recipeSearch');
 
 a.addEventListener('submit',function(e) {
     e.preventDefault();
-    var b = document.getElementById('recipeInput').value;
+    var b = document.getElementById('recipeInput').value.replace(/\W/g, '');
 
     fetch(`/edamam/food/${b}?from=0&to=10`,{ redirect: 'follow'})
     //Redirect to list of recipes
