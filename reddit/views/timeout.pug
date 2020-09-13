@@ -1,0 +1,18 @@
+extends layout
+
+
+block content
+
+  h1 Returned Posts
+  //- #{JSON.stringify(articles)}
+  <h1>
+    p There a timeout occoured. this could be due to the api reaching the limit or a questionable searching term manunally being added to the url. Will return you to the previous page in 5 seconds.
+  </h1>
+
+    script.
+      setTimeout(() => {  window.history.back(); }, 5000);
+
+
+    
+  script(src='/javascripts/summary.js')
+
