@@ -59,8 +59,6 @@ function createRedditOptions(after,before,dir,searchq) {
     }   
 
     options.path += "&count=20"
-    
-    console.log(options.path)
 
     return options;
 }

@@ -32,17 +32,6 @@ app.get('*', function(req, res) {
     res.render("unexpectedError");
 })
 
-//Set time out of 30 seconds. if Nothing is returned in that time display time out page. should prevent postman of messin gup results
-app.use(timeout(30000));
-app.use(haltOnTimedout);
-
-function haltOnTimedout(req, res, next){
-   if (!req.timedout) {
-    res.render("timeout")    
-    next();
-   }
-}
-
 
 app.listen(port, function () {
     console.log(`Express app listening at http://${hostname}:${port}/`);
