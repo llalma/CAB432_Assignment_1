@@ -16,10 +16,10 @@ async function ingredientsSearch(lines){
     for(let i = 0;i<lines.length;i++){
         if(lines[i] != ""){
 
-            //Remove all not alpha numberic chars
+            //Remove all non alpha numberic chars
             //Split into words per line. Used to see if "2 flour" is specified vs just "flour"
-            const words =  lines[i].replace(/\W/g, '').split(" ");
-            
+            const words =  lines[i].replace(/\W /g, '').split(" ");
+
             if(words.length == 2){
                 //In form of "2 egg"
                 display += await item2HTML(lines[i],words[0])
@@ -51,7 +51,7 @@ async function item2HTML(item,multiply){
         //Add them to the dislay string
         
         //New row per food item, pre makes each addition on a new line.
-        display += `<tr class="border_bottom"><td>${label}</td><td><pre>`
+        display += `<tr class="border_bottom"><td>${multiply} ${label}</td><td><pre>`
 
         //Actually add the nutrients to the cell
         var obj = JSON.parse(nutrients);
