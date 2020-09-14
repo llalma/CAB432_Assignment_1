@@ -43,6 +43,7 @@ router.get('/food/:query', (req, res) => {
     }
 });
 
+//Information about the API
 const recipe_search = {
     method: 'search',
     app_id: "a48ce52c",
@@ -50,6 +51,7 @@ const recipe_search = {
 };
 
 var removeUselessWords = function(txt) {
+    //Remove common words from the search term as they do no assist in finding recipes
     var uselessWordsArray = 
         [
           "a", "at", "be", "can", "cant", "could", "couldnt", 
@@ -73,11 +75,15 @@ function createRecepieOptions(query,selectedRecipe,from,to) {
     }
 
     var str = "";
+
+    //If a specific recipe has been selected and needs to return ingredients ect.
     if(selectedRecipe != undefined){
         str = "r="+ encodeURIComponent(selectedRecipe) +
         '&app_id=' + recipe_search.app_id +
         '&app_key=' + recipe_search.app_key;
     }else{
+        //General search query to return a list of ingredients matching the query.
+        
         //Remove common words from title before querying it.
         query = removeUselessWords(query)
 

@@ -11,9 +11,10 @@ const titleFetch = (event) => {
     .then((data) => {
       redirect: window.location.assign(data.url) 
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error)
+    });
 };
-
 
 function titleCleanup(title){
   //Use Regex to remove all chars between [ and ]
@@ -26,7 +27,7 @@ function titleCleanup(title){
 }
 
 function getSearchQuery(){
-  //return the search query from the current url. to pass when changing pages in a search
+  //Return the search query from the current url. to pass when changing pages in a search
 
   var url = window.location.href
 
@@ -36,7 +37,9 @@ function getSearchQuery(){
   return url
 }
 
-function gotoPrevPage(){
+function gotoPrevPage(event){
+  //Go to the Previous page.
+
   const before = event.target.value
 
   //get search query
@@ -48,6 +51,7 @@ function gotoPrevPage(){
     url += `&search=${q[0]}`
   }
 
+  //Fetch results from reddit api
   fetch(url,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {
@@ -56,7 +60,9 @@ function gotoPrevPage(){
     .catch((error) => console.log(error));
 }
 
-function gotoNextPage(){
+function gotoNextPage(event){
+  //Go to the Next page.
+
   const after = event.target.value
 
   //get search query
@@ -68,6 +74,7 @@ function gotoNextPage(){
     url += `&search=${q[0]}`
   }
   
+  //Fetch results from reddit api
   fetch(url,{ redirect: 'follow'})
     //Redirect to list of recipes
     .then((data) => {

@@ -1,31 +1,11 @@
-
-//Reddit search box
-var a = document.getElementById('tfnewsearch');
-
-a.addEventListener('submit',function(e) {
-    e.preventDefault();
-    var b = document.getElementById('tftextinput').value.replace(/\W/g, '');
-
-    if(b === ""){
-        home();
-    }else{
-        fetch(`/?search=${b}`,{ redirect: 'follow'})
-        //Redirects to search terms
-        .then((data) => {
-            redirect: window.location.assign(data.url) 
-        })
-        .catch((error) => console.log(error));
-    }
-});
-
-async function getNutritions(url) 
+async function getNutrients(url) 
 {
   let resp = await fetch(`/nutrition/item/${url}`);
   let data = await resp.json()
   return data;
 }
 
-async function getHTMLstr(lines){
+async function ingredientsSearch(lines){
     let label = "";
     let nutrients = "";
 
@@ -37,17 +17,15 @@ async function getHTMLstr(lines){
         if(lines[i] != ""){
 
             //Remove all not alpha numberic chars
-           
-
-            //Split into words per line. Used to see if "1 cup flour" is specified vs jsut "flour"
+            //Split into words per line. Used to see if "2 flour" is specified vs just "flour"
             const words =  lines[i].replace(/\W/g, '').split(" ");
             
             if(words.length == 2){
                 //In form of "2 egg"
-                display += await temp(lines[i],words[0])
+                display += await item2HTML(lines[i],words[0])
             }else{
                 //In form of egg. Just return general size
-                display += await temp(lines[i],1)
+                display += await item2HTML(lines[i],1)
             }
         }
     }
@@ -59,10 +37,12 @@ async function getHTMLstr(lines){
     return display
 }
 
-async function temp(item,multiply){
+async function item2HTML(item,multiply){
+    //Requests the item and adds to html in the correct location. Returns almso completed HTML.
+
     let display = ""
     //Get results from api, use await to stop until results are avaliable
-    await getNutritions(item)
+    await getNutrients(item)
     .then(data => {
             label = data.data.food.label
             nutrients = JSON.stringify(data.data.food.nutrients)
@@ -99,9 +79,26 @@ function home(){
     window.location.href = "http://" + temp;
 }
 
+//Reddit search box
+var a = document.getElementById('tfnewsearch');
+a.addEventListener('submit',function(e) {
+    e.preventDefault();
+    var b = document.getElementById('tftextinput').value.replace(/\W/g, '');
+
+    if(b === ""){
+        home();
+    }else{
+        fetch(`/?search=${b}`,{ redirect: 'follow'})
+        //Redirects to search terms
+        .then((data) => {
+            redirect: window.location.assign(data.url) 
+        })
+        .catch((error) => console.log(error));
+    }
+});
+
 //Find nutrients in an item. input is split by newline char
 var item = document.getElementById('foodItemSearch');
-
 item.addEventListener('submit',function(e) {
     e.preventDefault();
     var b = document.getElementById("foodItemtext").value;
@@ -113,7 +110,7 @@ item.addEventListener('submit',function(e) {
     lines = b.split("\n")
 
     //Get results from server. have to use async method to ensure the data is avaliable before attempting to display
-    getHTMLstr(lines)
+    ingredientsSearch(lines)
         .then(display => {
             document.querySelector('.Results').innerHTML += display + `</table>`
         })
@@ -121,7 +118,6 @@ item.addEventListener('submit',function(e) {
 
 //Recipe search
 var a = document.getElementById('recipeSearch');
-
 a.addEventListener('submit',function(e) {
     e.preventDefault();
     var b = document.getElementById('recipeInput').value.replace(/\W/g, '');

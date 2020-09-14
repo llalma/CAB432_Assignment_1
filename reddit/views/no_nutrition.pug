@@ -1,0 +1,9 @@
+extends layout
+
+
+block content
+
+  h1 An error occoured when searching for the nutruion of a food item. Returning you to the previous page in 5 seconds.
+
+  script.
+    setTimeout(() => {  window.history.back(); }, 5000);

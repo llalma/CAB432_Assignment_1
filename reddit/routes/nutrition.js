@@ -9,22 +9,17 @@ router.get('/item/:query', (req, res) => {
 
     const url = `https://${options.hostname}${options.path}`;
 
-    console.log(url)
 
     axios.get(url)
         .then( (rsp) => {
             const { data } = rsp;
 
-            // res.json("hello")
+            //Send results. Dont need to render as all results for this api are displayed with javascript.
             res.send({data: data.hints[0]})
-
-            
-            // //Only get first one, as it will hopefull be the closest one. could show all with a loop if needed though. would be similar to recipes or reddit though.
-            // res.render("nutrition", { item: data.hints[0]})
         })
         .catch((error) => {
             console.log(error)
-            res.render("No_Recipes_avaliable")
+            res.render("no_nutrition")
         })
 });
 

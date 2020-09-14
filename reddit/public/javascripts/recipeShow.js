@@ -1,19 +1,17 @@
-// Add an event listener to each recipe title
-const avaliableRecipes = document.getElementsByClassName("recipeTitle");
-
-for (let button of avaliableRecipes) {
-  button.addEventListener("click", (event) => recipeShow(event));
-}
 
 const recipeShow = (event) => {
+    //Get the clicked on recipe and get the specific details for the recipes.
+
+    //URI of recipe is saved in button text. Get it out and encode to be places in URL routing.
     let temp = event.target.value;
     temp = temp.split(",")
     uri = encodeURIComponent(temp[1])
 
+    //Fetch the details about the recipe from the router. In this form as request needs to be async, to ensure html is filled out correctly.
     fetch(`${temp[0]}?selected=${uri}`)
         .then((res) => res.json())
         .then((data) => {
-
+            //Fill HTML data with the results from the router.
             fillHTML(data.label,data.ingredients,data.calories,data.url,data.totalNutrients)
                 .then(htmlString =>{
                     document.querySelector('.selectedRecipe').innerHTML = htmlString;
@@ -21,9 +19,8 @@ const recipeShow = (event) => {
         })
         .catch((error) => console.log(error));
 
-    //Make all button td boxes white, so no duplicated yello wboxes
+    //Make all button td boxes white, so no duplicated yellow boxes
     const buttonBoxes = document.getElementsByClassName("buttonBox");
-
     for (let button of buttonBoxes) {
         button.style.backgroundColor = "white";
 
@@ -35,6 +32,8 @@ const recipeShow = (event) => {
 }
 
 function afterIngredientsHTML(calories,url,totalNutrients){
+    //Returns the html text after the ingredients have been added. Made it its own function as previous function is messy enough already.
+
     var htmlString = ""
 
     htmlString += `
@@ -75,7 +74,6 @@ function afterIngredientsHTML(calories,url,totalNutrients){
     return htmlString
 }
 
-
 async function fillHTML(title,ingredients,calories,url,totalNutrients){
     //Fills out the required html string to paste directly into the old html
 
@@ -93,7 +91,7 @@ async function fillHTML(title,ingredients,calories,url,totalNutrients){
             <td><h2>Ingredients</h2></td>
             <td>`
 
-    //Get the html string for the ingridents
+    //Get the html string for the ingredients, this part needs to be async.
     await getHTMLstr(ingredients)
         .then(display => {
             htmlString += display + `</table>`
@@ -102,6 +100,8 @@ async function fillHTML(title,ingredients,calories,url,totalNutrients){
             
         })
         .catch((error) => {
+            //If any of the ingredient require some form of lanuage processing to get the nurtients of the data from the text jsut display the food items instead. 
+
             console.log(error)
             htmlString += "Unable to show nutrients due to how api returns data. Need a higher level liscense to return ingredients as an ingredient object as listed on the api. Can look in console for how the json currently looks for an ingredient."
 
@@ -131,6 +131,8 @@ async function getNutritions(url)
 }
 
 async function getHTMLstr(lines){
+    //Async function for passing the ingredients from the recipe to the Edamam food database to return the nutrioents of each food item in the format required by the html.
+
     let label = "";
     let nutrients = "";
 
@@ -158,11 +160,14 @@ async function getHTMLstr(lines){
 
                     //Actually add the nutrients to the cell
                     var obj = JSON.parse(nutrients);
+
+                    //If the first word in the string is a number, treat it as a multiplyer.
                     if(parseInt(words[0]) != NaN){
                         for (var key in obj) {
                             display += `${key}: ${obj[key]*parseInt(words[0])}\n`
                         }
                     }else{
+                        //Just display the nutrients of the food item.
                         for (var key in obj) {
                             display += `${key}: ${obj[key]}\n`
                         }
@@ -190,7 +195,9 @@ function getSearchQuery(){
     return url
   }
 
-function gotoPrevPage(){
+function gotoPrevPage(event){
+    //Go to previous page
+
     const before = event.target.value
   
   
@@ -199,6 +206,7 @@ function gotoPrevPage(){
     //get search query
     const q = getSearchQuery()
   
+    //Fetch results from router for previous page
     fetch(`/edamam/food/${q}${url}`,{ redirect: 'follow'})
       //Redirect to list of recipes
       .then((data) => {
@@ -207,7 +215,9 @@ function gotoPrevPage(){
       .catch((error) => console.log(error));
   }
   
-function gotoNextPage(){
+function gotoNextPage(event){
+    //Go to the next page
+
     const after = event.target.value
   
     //Get url for paging
@@ -216,13 +226,19 @@ function gotoNextPage(){
     //get search query
     const q = getSearchQuery()
 
-    
+    //Fetch results from router for the next page    
     fetch(`/edamam/food/${q}${url}`,{ redirect: 'follow'})
       //Redirect to list of recipes
       .then((data) => {
         redirect: window.location.assign(data.url) 
       })
       .catch((error) => console.log(error));
+}
+
+// Add an event listener to each recipe title
+const avaliableRecipes = document.getElementsByClassName("recipeTitle");
+for (let button of avaliableRecipes) {
+  button.addEventListener("click", (event) => recipeShow(event));
 }
 
 //Previous page
