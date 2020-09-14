@@ -9,10 +9,11 @@ router.get('/item/:query', (req, res) => {
 
     const url = `https://${options.hostname}${options.path}`;
 
-
     axios.get(url)
         .then( (rsp) => {
             const { data } = rsp;
+
+            console.log(data.hints[0])
 
             //Send results. Dont need to render as all results for this api are displayed with javascript.
             res.send({data: data.hints[0]})
